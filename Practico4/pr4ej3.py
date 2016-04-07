@@ -1,10 +1,21 @@
 from random import random
 
-def lanzamiento(n):
-
-	total = 0
+def experimento(n):
+	
+	suma_1 = 0
+	suma_2 = 0
 	
 	for _ in range(n):
+		X = lanzamientos()
+		suma_1 += X
+		suma_2 += X**2
+	
+	esperanza = suma_1 / float(n)
+	varianza = suma_2/float(n) - esperanza**2
+	
+	print esperanza, varianza
+
+def lanzamientos():
 		lanzamientos = 0
 		lanzamientos_restantes = 11
 		sumas_posibles=[]
@@ -23,14 +34,10 @@ def lanzamiento(n):
 				sumas_posibles[suma_actual-2] = 1
 				lanzamientos_restantes -= 1
 			lanzamientos += 1
+		
+		return lanzamientos
 
-		total += lanzamientos
-		#print "Lanzamientos", lanzamientos
-	print total/n
-
-	
-lanzamiento(10)
-lanzamiento(100)
-lanzamiento(1000)
-lanzamiento(10000)
-lanzamiento(100000)
+experimento(100)
+experimento(1000)
+experimento(10000)
+experimento(100000)
