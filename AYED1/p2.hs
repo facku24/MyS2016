@@ -49,9 +49,9 @@ is_sirs persona = False
 mayor2 :: Int -> Bool
 mayor2 x = x > 2
 
---sirs2 :: [Persona] -> [String]
---sirs2 [] = []
---sirs2 xs = filter is_sirs xs
+sirs2 :: [Persona] -> [String]
+sirs2 [] = []
+sirs2 xs = sirs (filter is_sirs xs)
 
 -- EJERCICIO 4: TIPOS RECURSIVOS
 data IntExp = Const Int 			-- constante
@@ -82,10 +82,40 @@ evalb (Not b) 	 = not (evalb b)
 evalb (And a b)  = (evalb a) && (evalb b)
 evalb (Or a b) 	 = (evalb a) || (evalb b)
 
+-----------------------------------------------
 --EJERCICIO 5: TIPOS RECURSIVOS Y POLIMÓRFICOS
+-----------------------------------------------
+
 data ListAssoc a b = Empty | Node a b (ListAssoc a b)
 
 type Diccionario = ListAssoc String String
 type Padron 	 = ListAssoc Int String
 type Telefonica  = ListAssoc String Int
+
+la_long :: Integral c => ListAssoc a b -> c 
+la_long Empty = 0
+la_long (Node a b list) = 1 + la_long (list) 
+
+la_aListaDePares :: ListAssoc a b -> [(a,b)]
+la_aListaDePares Empty = []
+la_aListaDePares (Node a b list) = (a,b) : la_aListaDePares (list) 
+
+la_existe :: Eq a => ListAssoc a b -> a -> Bool
+la_existe Empty key = False
+la_existe (Node a b list) key = (key == a) || la_existe list key 
+
+la_buscar :: Eq a => ListAssoc a b -> a -> Maybe b
+la_buscar Empty key = Nothing
+la_buscar (Node a b list) key | (key == a) = Just b
+							  | otherwise = la_buscar list key
+
+la_agregar :: Eq a => a -> b -> ListAssoc a b -> ListAssoc a b
+la_agregar k d Empty = Node k d Empty
+la_agregar k d (Node a b list) | (k == a) = Node a d list
+							   | otherwise = Node a b (la_agregar k d list)
+
+la_borrar :: Eq a => a -> ListAssoc a b -> ListAssoc a b
+la_borrar k Empty = Empty
+la_borrar k (Node a b list) | (k == a) = list
+							| otherwise = Node a b (la_borrar k list)
 
