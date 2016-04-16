@@ -1,0 +1,15 @@
+set Data = {a,b,c}
+
+range T = 0..1
+
+EMISOR = EMISOR[0],
+
+EMISOR[nfts:T] = (fnl[d:Data] -> ENVIAR[nfts][d]),
+
+ENVIAR[nfts:T][d:Data] = (tpl[nfts,d] -> START_TIMER[nfts][d]),
+
+START_TIMER[nfts:T][d:Data] = (timer_out -> ENVIAR[nfts][d]
+						|fpl[ack:T] -> 
+							if (ack == nfts) 
+								then (next_nfts[(nfts+1)%2] -> EMISOR[(nfts+1)%2])
+							else ()).
