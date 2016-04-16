@@ -2,14 +2,36 @@ set Data = {a,b,c}
 
 range T = 0..1
 
+//----------------------------------------------------------
+//						EMISOR
+//----------------------------------------------------------
 EMISOR = EMISOR[0],
 
 EMISOR[nfts:T] = (fnl[d:Data] -> ENVIAR[nfts][d]),
 
-ENVIAR[nfts:T][d:Data] = (tpl[nfts,d] -> START_TIMER[nfts][d]),
+ENVIAR[nfts:T][d:Data] = (tpl_e[nfts][d] -> START_TIMER[nfts][d]),
 
 START_TIMER[nfts:T][d:Data] = (timer_out -> ENVIAR[nfts][d]
-						|fpl[ack:T] -> 
+						|fpl_e[ack:T] -> 
 							if (ack == nfts) 
 								then (next_nfts[(nfts+1)%2] -> EMISOR[(nfts+1)%2])
-							else ()).
+							else (reintentar -> ENVIAR[nfts][d])).
+
+//---------------------------------------------------------
+//						RECEPTOR
+//---------------------------------------------------------
+RECEPTOR = RECEPTOR[0],
+
+RECEPTOR[fe:T] = (fpl_r[seq:T][d:Data] -> 
+					if (seq == fe) then (tnl[d] -> CONFIRMAR[(fe+1)%2])
+					else (repedir -> CONFIRMAR[fe])),
+
+CONFIRMAR[fe:T] = (tpl_r[(fe+1)%2] -> RECEPTOR[fe]).
+
+//---------------------------------------------------------
+//						SINCRONIZADOS
+//---------------------------------------------------------
+
+|| PAR = (EMISOR || RECEPTOR)
+		/{emisor_receptor/tpl_e, emisor_receptor/fpl_r,
+		  receptor_emisor/fpl_e, receptor_emisor/tpl_r}.
