@@ -34,4 +34,5 @@ CONFIRMAR[fe:T] = (tpl_r[(fe+1)%2] -> RECEPTOR[fe]).
 
 || PAR = (EMISOR || RECEPTOR)
 		/{emisor_receptor/tpl_e, emisor_receptor/fpl_r,
-		  receptor_emisor/fpl_e, receptor_emisor/tpl_r}.
+		  receptor_emisor/fpl_e, receptor_emisor/tpl_r}
+		\{next_nfts.[0]}
