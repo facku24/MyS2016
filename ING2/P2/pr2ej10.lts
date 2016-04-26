@@ -1,0 +1,24 @@
+const Durmiendo = 0
+const Atendiendo = 1
+const False = 0
+const True = 1
+
+range C = 1..1
+range Estados = Durmiendo..Atendiendo
+range Bool = False..True
+
+PELUQUERO = PELUQUERO[Durmiendo],
+
+PELUQUERO[estado:Estados] = (
+	 when (estado == Durmiendo) despertar -> atender -> PELUQUERO[Atendiendo]
+	|when (estado == Atendiendo) terminar -> query[hay_clientes:Bool] -> 
+		if (hay_clientes == True) then (atender -> PELUQUERO[Atendiendo])
+		else ( siesta -> PELUQUERO[Durmiendo])).
+
+JOBS = (arribo -> JOBS[1]
+	   |query[False] -> JOBS),
+
+JOBS[cliente:C] = (atender -> JOBS
+				|query[True] -> JOBS[cliente]).
+
+|| PELUQUERIA = (PELUQUERO || JOBS).

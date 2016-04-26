@@ -1,0 +1,219 @@
+----------------------------------------------------
+				GENERACION DE UNIFORMES EN (0, n)
+----------------------------------------------------
+1. Genero uniforme U en (0,1)
+2. X = int(n*U) + 1
+3. regreso X
+
+----------------------------------------------------
+		GENERACION DE PERMUTACION DE n ELEMENTOS
+----------------------------------------------------
+1. k = n
+2. while (k>1):
+3.	genero U uniforme
+4.	i = int(k*U) + 1
+5.	intercambio Pi y Pk
+6. 	k -= 1
+7. end
+
+----------------------------------------------------
+	GENERACION DE PERMUTACION (ALTERNATIVA)
+----------------------------------------------------
+1. genero n número aleatorios Ui
+2. ordeno Ui1, Ui2, ..., Uin
+3. utilizo los subíndices de los valores ordenados
+
+----------------------------------------------------
+	CALCULO DE PROMEDIOS (a= sum i = 1 to n a(i)/n)
+----------------------------------------------------
+1. S = 0 
+2. for i = 1 to k:
+3.	genero U aleatorio
+4.	i = int (n*U) + 1
+5.	S = S + a(i/n)
+6. end
+
+----------------------------------------------------
+		GENERACIÓN VARIABLE GEOMÉTRICA
+----------------------------------------------------
+1. Cuenta el número del primer éxito con prob p 
+2. X = int (log(u)/log(1-p)) + 1
+
+----------------------------------------------------
+		GENERACION DE POISSON param(lambda)
+----------------------------------------------------
+1. genero U uniforme
+2. i = 0, p = e(-lambda), F = p
+3. while U >= F:
+4.	p = (lambda*p)/(i+1)
+5.	F += p
+6.	i += 1
+7. end
+8. X = i
+
+----------------------------------------------------
+		GENERACION DE POISSON param(lambda)
+----------------------------------------------------
+1. i = int(lambda)
+2. calcular F(i) de manera recursiva
+3. genero U uniforme
+4. if U <= F(i):
+5.	genero X haciendo busqueda descendiente
+6. else:
+7.	genero X haciendo busqueda ascendiente
+8. end
+
+----------------------------------------------------
+		GENERACION BINOMIAL(n,p)
+----------------------------------------------------
+1. Cantidad de exitos en n ensayos indep
+2. genero U uniforme
+3. c = p/(1-p)
+4. Pr = (1-p)^n
+5. F = Pr
+6. while U >= F:
+7.	Pr = [c*(n-i)/(i+1)]*Pr
+8.	F += Pr
+9.	i = i + 1
+10.end
+11. X = i
+
+Obs! = si p > .5, generar "n - BINOMIAL(n, 1-p)" 
+
+----------------------------------------------------
+	METODO DE LA TABLA ( )
+----------------------------------------------------
+
+----------------------------------------------------
+	ACEPTACION Y RECHAZO
+----------------------------------------------------
+1. repeat 
+2.	simulo Y con prob de masa qy
+2.	genero U uniforme
+3. until U < py/cqy
+4. X = Y
+
+----------------------------------------------------
+		GENERACION DE POTENCIA
+----------------------------------------------------
+1. generar U1,U2,..,Un
+2. X = max{U1,U2,..,Un}
+
+----------------------------------------------------
+		GENERACION DE EXPONENCIAL
+----------------------------------------------------
+1. de param 1
+2. genero U uniforme
+3. X = -log(U)
+
+4. de param lambda
+5. genero U uniforme
+6. X = -(1/lambda)log(U)
+
+----------------------------------------------------
+		GENERACION POISSON (TRASNF INVERS)
+----------------------------------------------------
+1. genero U1 uniforme
+2. if U1 < e^(-lambda):
+3.	X = 0, stop
+4. generar U2 uniforme
+5. if U1.U2 < e^(-lambda):
+6.	X = 1, stop
+7. y asii....
+8.
+9.
+
+----------------------------------------------------
+		GENERACION DE GAMMA (n, lambda)
+----------------------------------------------------
+1. generar U1, U2, ..., Un uniformes
+2. X = - (1/lambda) log (U1*U2*...*Un)
+
+----------------------------------------------------
+		GENERACION DE 2 EXPONENCIALES 
+----------------------------------------------------
+1. genero U1, U2 uniformes
+2. t = - (1/lambda) log(U1*U2)
+3. genero U3 uniforme
+4. X = tU3
+5. Y = t - X
+
+----------------------------------------------------
+		GENERACION DE N EXPO
+----------------------------------------------------
+1. genero U1, U2, ..., Un uniformes
+2. t = - (1/lambda) log(U1*U2*...*Un)
+3. genero V1, V2, ..., Vn uniformes y las ordeno
+4. X1 = t* V1
+5. X2 = t(V2-V1)
+.
+.
+.  Xn-1 = t *(Vn-1 - Vn-2)
+.  Xn = t - t* Vn-1
+
+----------------------------------------------------
+	GENERACION DE NORMAL
+----------------------------------------------------
+1. repeat
+2.	genero Y1 expo(1)
+3.	genero Y2 expo(1)
+4. until (Y2 - (Y1 - 1)^2)/2 > 0
+5. X = (Y2 - (Y1 - 1)^2)/2
+6. genero U uniforme
+7. si U < 0.5:
+8.	Z = Y1
+9. else
+10. Z = -Y1
+
+----------------------------------------------------
+	1 POISSON HOMOGENEO 
+----------------------------------------------------
+1. t = 0, i = 0
+2. while true:
+3.	genero U uniforme
+4.	if t -(1/lambda) log U > T:
+5.		stop
+6.	else:
+7.		t = t - (1/lambda)log U
+8.		i += 1
+9.		S(i) = t
+10.	end
+11.end
+
+----------------------------------------------------
+	2 GENERACION DE EVENTOS EN EL INTER
+----------------------------------------------------
+1. t = 0, i = 0
+2. while true:
+3.	genero U uniforme
+4.	if t -(1/lambda) log U > T:
+5.		stop
+6.	else:
+7.		t = t - (1/lambda)log U
+8.		generar V
+9.		if V < lambda(t)/lambda:
+10.			i += 1
+11.			S(i) = t
+10.		end
+11.	end
+12.end
+
+----------------------------------------------------
+----------------------------------------------------
+1. t = 0, j = 0, i = 0
+2. while true:
+3.	genero U uniforme
+4.	X = -(1/lambda) log U	
+5.	while t + X > tj:
+6.		if j = k+1: stop
+7.		end
+8.		X = (X-tj+t)*lambda(j)/lambda
+9.		t = tj
+10.		j = j+1
+11.	end
+12.t = t+X
+13.genero V uniforme
+14.if V<lambda(t)/lambda:
+15.	i = i+1
+16. S(i) = t
+17.end
