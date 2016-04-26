@@ -1,0 +1,37 @@
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from random import random
+import math
+
+def ej2(n,p):
+	U = random()
+	i = 0
+	c = p / float(1 - p)
+	Pr = (1 - p) ** n
+	F = Pr
+	while U >= F:
+		Pr = (c*(n-i)/float(i+1))*Pr
+		F += Pr
+		i = i + 1
+	return i
+
+
+def ej3a(lamda, fun_lamda, T):
+	t = 0
+	i = 0
+	S = [0]
+	U = random()
+	print "va"
+	t -= (1/lamda) * math.log(U)
+	while t <= T:
+		V = random()
+		if V < fun_lamda(t)/lamda:
+			i += 1
+			S.append(t)
+	return S, i
+
+def fun_lamda(t):
+	return (1 + 1 / float(1+t))
+
+print ej3a(2 , fun_lamda, 3)
