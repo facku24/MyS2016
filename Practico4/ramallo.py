@@ -22,13 +22,14 @@ def ej3a(lamda, fun_lamda, T):
 	i = 0
 	S = [0]
 	U = random()
-	print "va"
-	t -= (1/lamda) * math.log(U)
+	t -= (1/float(lamda)) * math.log(U)
 	while t <= T:
 		V = random()
-		if V < fun_lamda(t)/lamda:
+		if V < fun_lamda(t)/float(lamda):
 			i += 1
 			S.append(t)
+		U = random()
+		t -= (1/float(lamda)) * math.log(U)
 	return S, i
 
 def fun_lamda(t):
