@@ -35,4 +35,27 @@ def ej3a(lamda, fun_lamda, T):
 def fun_lamda(t):
 	return (1 + 1 / float(1+t))
 
-print ej3a(2 , fun_lamda, 3)
+
+def ej3b(lamda, fun_lamda, T):
+	t = 0
+	j = 0
+	i = 0
+	S = [0]
+	T1 = 0.5
+	T2 = 1.
+	while true:
+	U = random()
+	X = -(1/float(lamda))* math.log(U)	
+	while t + X > tj:
+		if (j == k+1): 
+			break
+		X = (X-tj+t)*fun_lamda(j)/float(lamda)
+		t = tj
+		j = j+1
+	t = t + X
+	V = random()
+	if V < fun_lamda(t)/float(lamda):
+		i = i+1
+		S.append(t)
+
+
