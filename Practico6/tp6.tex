@@ -1,0 +1,209 @@
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{t1enc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\topmargin -1.5cm
+ \textheight 26cm
+\textwidth 18cm
+\oddsidemargin -1cm
+\evensidemargin -1cm
+%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{pslatex}
+\usepackage[active]{srcltx}
+\usepackage{pifont}
+\usepackage{amsfonts}
+\usepackage{babel}
+\usepackage{longtable}
+%%%%%%%%%%%%%%%%%%%%
+\usepackage{pslatex}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[dvips]{color}
+%%%%%%%%%%%%%%%%%%%%
+\def\RR{\mathbb R}
+\def\NN{\mathbb N}
+\renewcommand{\labelenumii}{\roman{enumii})}
+
+\pagestyle{fancy}
+
+\lhead{Modelos y Simulaci\'on}
+\chead{Primer cuatrimeste de 2016}
+\rhead{U.N.C}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+\begin{document}
+%\fontfamily{pag}
+\fontfamily{ppl}
+
+\begin{center}
+\scshape\large\textbf{Pr\'actica 6}
+\end{center}
+\begin{center}
+\small \sc Análisis estadístico de datos simulados.
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 1.} \rm
+Generar~$n$ valores de una variable aleatoria normal
+estándar de manera tal que se cumplan las condiciones: $n \geq 30$
+y $S/\sqrt{n} < 0.1$, siendo~$S$ la desviación estándar muestral
+de los~$n$ datos generados.
+\begin{itemize}
+\item[a)] ?`Cuál es el número esperado de datos que deben
+generarse para cumplir las condiciones?
+\item[b)] ?`Cuál es el número de datos generados
+efectivamente?
+\item[c)] ?`Cuál es la media muestral de los datos
+generados?
+\item[d)] ?`Cuál es la varianza muestral de los datos
+generados?
+\item[e)] Comente los resultados de los items (c) y (d).
+?`Son sorprendentes?
+\end{itemize}
+
+
+
+
+\vspace{.3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 2.} \rm
+Estimar mediante el método de Monte Carlo la integral
+%
+\[
+\int_0^1 \exp(x^2) \,dx \;.
+\]
+%
+Generar al menos~$100$ valores y detenerse cuando la desviación
+estándar del estimador sea menor que~$0.01$.
+
+\vspace{.3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 3.} \rm
+Para $U_1, U_2, \dots$ variables aleatorias uniformemente
+distribuídas en el intervalo~$(0,1)$, se define:
+%
+$$
+N = \mbox{Mínimo} \left\{ n : \sum_{i=1}^n U_i > 1 \right\}
+$$
+%
+Es decir, $N$ es igual a la cantidad de números aleatorios que
+deben sumarse para exceder a~$1$.
+Como se mostró en el Problema 3 de la Gu\'{\i}a N$^{\circ}$3,
+$E[N] = e$.
+
+\noindent Calcular la varianza del estimador~$\bar{N}$
+correspondiente a~$1000$ ejecuciones de la simulación
+y dar una estimación de~$e$ mediante un intervalo de
+confianza de~$95 \%$.
+
+\vspace{.3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 4.} \rm
+Considere una sucesión de números aleatorios y sea~$M$ el
+primero que es menor que su predecesor. Es decir,
+%
+\[
+M = \{ n : U_1 \leq U_2 \leq \dots \leq U_{n-1} > U_n \}
+\]
+%
+\begin{itemize}
+\item[a)] Justificar que~$P(M > n) = 1/n!$, $n \geq 0$.
+\item[b)] Utilizar la identidad
+%
+\[
+E[M] = \sum_{n=0}^{\infty} P(M > n)
+\]
+%
+para mostrar que~$E[M] = e$.
+\item[c)] Utilizar el resultado del item anterior para
+estimar~$e$ mediante~$1000$ ejecuciones de una simulación.
+\item[d)] Calcular la varianza del estimador del item~(c)
+y dar una estimación de~$e$ mediante un intervalo de confianza
+de~$95\%$.
+\end{itemize}
+
+
+\vspace{.3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 5.} \rm
+Estimar~$\pi$ sorteando puntos uniformemente distribuídos
+en el cuadrado cuyos vértices son: $(1,1)$, $(-1,1)$, $(-1,-1)$,
+$(1,-1)$, y contabilizando la fracción que cae dentro del
+círculo inscripto de radio~$1$.
+
+\noindent Obtener un intervalo de ancho menor que~$0.1$, el cual
+contenga a~$\pi$ con el~$95 \%$ de confianza.
+?`Cuántas ejecuciones son necesarias?
+
+\vspace{.3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 6.} \rm
+Sean~$X_1,\dots, X_n$ variables aleatorias independientes
+e idénticamente distribuídas con media~$\mu$ desconocida.
+Para~$a$ y~$b$ constantes dadas, $a<b$, nos interesa estimar
+%
+$$p= \displaystyle P \left( a < \sum_{i=1}^n X_i/n - \mu < b \right).$$
+%
+\begin{itemize}
+\item[a)] Explicar como utilizar el método ``bootstrap''
+para estimar~$p$.
+\item[b)] Estimar~$p$ asumiendo que para~$n=10$, los valores
+de las variables~$X_i$ resultan 56, 101, 78, 67, 93, 87, 64, 72, 80
+y 69. Sean~$a=-5$ y $b=5$.
+\end{itemize}
+
+\vspace{.3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 7.} \rm
+Sean~$X_1,\dots, X_n$ variables aleatorias independientes
+e idénticamente distribuídas con varianza~$\sigma^2$
+desconocida.
+Se planea estimar~$\sigma^2$ mediante la varianza muestral
+%
+$$S^2 = \displaystyle \sum_{i=1}^n (X_i-\overline{X})^2 / (n-1)$$.
+%
+
+\vspace{-0.5cm}
+\noindent Si~$n=2$, $X_1=1$ y~$X_2=3$, ?`cuál es la estimación
+``bootstrap'' de~$\mbox{Var}(S^2)$?
+
+\vspace{.3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \bf{Ejercicio 8.} \rm
+Considerar un sistema con un único servidor en el cual los
+clientes potenciales llegan de acuerdo con un proceso de Poisson de
+razón~$4.0$. Un cliente potencial entrará al sistema sólo si
+hay tres o menos clientes en el sistema al momento de su llegada.
+El tiempo de servicio de cada cliente está distribuído según
+una exponencial de parámetro~$4.2$.
+Despues del instante~$T=8$ no entran más clientes al sistema (los
+tiempos están dados en horas). Realizar un estudio de simulación
+para estimar el tiempo promedio que un cliente pasa en el sistema.
+Aplicar el método ``bootstrap'' para estudiar el error cuadrático
+medio de su estimador.
+
+\end{document}
