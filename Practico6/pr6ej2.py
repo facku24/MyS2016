@@ -17,7 +17,7 @@ def experimento():
         A = M
         M += (X - M) / float(j)
         S = (1. - 1./(j - 1)) * S + j * (M - A)**2
-    j = 30
+    j = 100
     while (math.sqrt(S/float(j)) > 0.01):
         j += 1
         U = random()
@@ -32,7 +32,7 @@ def promedio():
     count = 0
     for _ in range(100):
         M , j = experimento()
-        count += j
+        count += M
     return count/float(100)
 
 print (promedio())
