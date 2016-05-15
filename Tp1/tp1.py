@@ -78,7 +78,8 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 	#--------------------------------------------------
 
 	while (True):
-		print list_var
+		#print list_var
+
 		if (list_var[0] < t_rep_1 and list_var[0] < t_rep_2):
 			
 			time   = list_var[0] #actualizamos el tiempo de descomp
@@ -93,7 +94,7 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 				# la nueva maq de repuesto
 				X = - (math.log(random()) / float(Tf))
 				list_var.append(X+time)
-				print "NEW REPUEST: ", X+time
+			#	print "NEW REPUEST: ", X+time
 				list_var.sort()
 
 			if (en_rep == 1):
@@ -108,9 +109,40 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 
 				elif (t_rep_2 == float('inf')):
 					t_rep_2 = time + Y
-			print "CASO 1: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-			sys.stdin.read(1)
-		elif (t_rep_1 <= list_var[0] and list_var[0] < t_rep_2):
+			#print "CASO 1: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
+			#sys.stdin.read(1)
+
+		elif (t_rep_1 < list_var[0] and t_rep_2 < list_var[0]):
+			
+			if (t_rep_1 <= t_rep_2):
+				time = t_rep_1
+				en_rep -= 1
+
+				if (en_rep > 1):
+					Y = - math.log(random()) / float(Tr)
+					t_rep_1 = time + Y
+
+				if (en_rep == 0 or en_rep ==1):
+					t_rep_1 = float('inf')
+				
+				#print "CASO 2a: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
+				#sys.stdin.read(1)
+
+			elif (t_rep_2 < t_rep_1):
+				time = t_rep_2
+				en_rep -= 1
+
+				if (en_rep > 1):
+					Y = - math.log(random()) / float(Tr)
+					t_rep_2 = time + Y
+
+				if (en_rep == 0 or en_rep ==1):
+					t_rep_2 = float('inf')
+				
+				#print "CASO 2b: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
+				#sys.stdin.read(1)
+
+		elif (t_rep_1 < list_var[0]):
 			
 			time = t_rep_1
 			en_rep -= 1
@@ -122,10 +154,10 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 			if (en_rep == 0 or en_rep ==1):
 				t_rep_1 = float('inf')
 			
-			print "CASO 2: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-			sys.stdin.read(1)
+			#print "CASO 2: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
+			#sys.stdin.read(1)
 		
-		elif (t_rep_2 <= list_var[0] and list_var[0] < t_rep_1):
+		elif (t_rep_2 <= list_var[0]): #and list_var[0] < t_rep_1):
 			
 			time = t_rep_2
 			en_rep -= 1
@@ -137,9 +169,11 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 			if (en_rep == 0 or en_rep == 1):
 				t_rep_2 = float('inf')
 
-			print "CASO 3: time= "+ str(time) + " T1= " + str(list_var[0]) + " T2*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-			sys.stdin.read(1)
-		sys.stdin.read(1)
+			#print "CASO 3: time= "+ str(time) + " T1= " + str(list_var[0]) + " T2*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
+			#sys.stdin.read(1)
+		
+		#sys.stdin.read(1)
+
 def un_operario(n):
 	result = 0
 	for _ in range(n):
@@ -156,10 +190,10 @@ def dos_operarios(n):
 def un_repuesto_mas(n):
 	result = 0
 	for _ in range(n):
-		result += reparacion(5, 4, 1, 8)
+		result += reparacion(5, 3, 1, 8)
 		#reparacion(6, 4, 1, 1)
 	print result / float(n)
 
-#un_operario(1000)
-#un_repuesto_mas(1000)
-dos_operarios(1)
+#un_operario(10000)
+un_repuesto_mas(1000)
+dos_operarios(1000)
