@@ -1,6 +1,8 @@
 from random import random
+import matplotlib.pyplot as plt
 import math
 import sys
+import numpy as np
 
 def reparacion(sanas, repuestos, Tf, Tr):
 	#---------Inicializacion
@@ -175,11 +177,34 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 		#sys.stdin.read(1)
 
 def un_operario(n):
-	result = 0
+	result = []
 	for _ in range(n):
-		result += reparacion(5, 2, 1, 8)
-		#reparacion(6, 4, 1, 1)
-	print result / float(n)
+		result.append(reparacion(5, 2, 1, 8))
+	bins = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260]
+	
+	plt.hist(result, bins, histtype='bar', rwidth=0.8)
+	plt.xlabel('x')
+	plt.ylabel('y')
+	#plt.title('Sistema de Lavanderia')
+	plt.legend()
+	plt.show
+	#print result
+
+def ejemplo():
+	mu, sigma = 100, 15
+	x = mu + sigma * np.random.randn(10000)
+
+	# the histogram of the data
+	n, bins, patches = plt.hist(x, 50, normed=1, facecolor='g', alpha=0.75)
+
+
+	plt.xlabel('Smarts')
+	plt.ylabel('Probability')
+	plt.title('Histogram of IQ')
+	plt.text(60, .025, r'$\mu=100,\ \sigma=15$')
+	plt.axis([40, 160, 0, 0.03])
+	plt.grid(True)
+	plt.show()
 
 def dos_operarios(n):
 	result = 0
@@ -195,5 +220,6 @@ def un_repuesto_mas(n):
 	print result / float(n)
 
 #un_operario(10000)
-un_repuesto_mas(1000)
-dos_operarios(1000)
+#un_repuesto_mas(1000)
+#dos_operarios(1000)
+ejemplo()
