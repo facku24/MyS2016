@@ -180,46 +180,35 @@ def un_operario(n):
 	result = []
 	for _ in range(n):
 		result.append(reparacion(5, 2, 1, 8))
-	bins = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260]
-	
-	plt.hist(result, bins, histtype='bar', rwidth=0.8)
-	plt.xlabel('x')
-	plt.ylabel('y')
-	#plt.title('Sistema de Lavanderia')
-	plt.legend()
-	plt.show
-	#print result
-
-def ejemplo():
-	mu, sigma = 100, 15
-	x = mu + sigma * np.random.randn(10000)
-
-	# the histogram of the data
-	n, bins, patches = plt.hist(x, 50, normed=1, facecolor='g', alpha=0.75)
-
-
-	plt.xlabel('Smarts')
-	plt.ylabel('Probability')
-	plt.title('Histogram of IQ')
-	plt.text(60, .025, r'$\mu=100,\ \sigma=15$')
-	plt.axis([40, 160, 0, 0.03])
-	plt.grid(True)
-	plt.show()
+	return result
 
 def dos_operarios(n):
-	result = 0
+	result = []
 	for _ in range(n):
-		result += reparacion_2(5, 2, 1, 8)
-	print result / float(n)
+		result.append(reparacion_2(5, 2, 1, 8))
+	return result 
 
 def un_repuesto_mas(n):
-	result = 0
+	result = []
 	for _ in range(n):
-		result += reparacion(5, 3, 1, 8)
-		#reparacion(6, 4, 1, 1)
-	print result / float(n)
+		result.append(reparacion(5, 3, 1, 8))
+	return result 
 
-#un_operario(10000)
-#un_repuesto_mas(1000)
-#dos_operarios(1000)
+def ejemplo():
+	#sist_normal = un_operario(10000)
+	sist_repuesto 	= un_repuesto_mas(10000)
+	#sist_doble 		= dos_operarios(10000)
+
+	bins = np.linspace(0, 10, 40)
+	#plt.hist(sist_doble, bins, histtype='bar', rwidth=0.65, color='c', edgecolor='b', label='Dos Operarios')
+	#plt.hist(sist_repuesto, bins, histtype='bar', rwidth=0.65, color='g', edgecolor='none', label='Nuevo Repuesto')
+	#plt.hist(sist_normal, bins, histtype='bar', rwidth=0.65, color='c',label='Sistema Actual')
+	plt.hist(sist_repuesto, bins, histtype='bar', rwidth=0.65, color='c',label='Nuevo Repuesto')
+	plt.xlabel('Tiempo de Falla (Meses)')
+	plt.xticks(np.arange(min(bins), max(bins)+1, 1.0))
+	plt.ylabel('Cantidad de Fallas')
+	plt.title('Sistema de Lavanderia')
+	plt.legend()
+	plt.show()
+
 ejemplo()
