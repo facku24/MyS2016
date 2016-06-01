@@ -2,7 +2,7 @@ from random import normalvariate
 from random import random
 import math
 
-#The integrate value is 1.46265 aprox.
+#e is 2.718281828459045 aprox.
 def experimento(stop_value):
     lista = []
     X = generacion_n()
@@ -16,16 +16,9 @@ def experimento(stop_value):
         M += (X - M) / float(j)
         S = (1. - 1./(j - 1)) * S + j * (M - A)**2
     j = stop_value
-    desv_stand = math.sqrt(S)
-    print (2*(1.96*(math.sqrt(S/float(j)))))
-    while (2*(1.96*(math.sqrt(S/float(j)))) > desv_stand):
-        j += 1
-        X = generacion_n()
-        lista.append(X)
-        A = M
-        M += (X - M) / float(j)
-        S = (1. - 1./(j - 1)) * S + j * (M - A)**2
-    return M, j, S
+    value = 2*(1.96*(math.sqrt(S/float(j))))
+    interval = (M - value, M + value)
+    return S, interval
 
 def generacion_n():
     count = 1
@@ -36,10 +29,7 @@ def generacion_n():
     return count
     
 def promedio():
-    count = 0
-    #for _ in range(10):
-    M , j, S = experimento(1000)
-    #    count += M
-    return M, j, S
+    varianza, intervalo = experimento(1000)
+    return varianza, intervalo
 
 print(promedio())

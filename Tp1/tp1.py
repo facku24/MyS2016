@@ -96,7 +96,6 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 				# la nueva maq de repuesto
 				X = - (math.log(random()) / float(Tf))
 				list_var.append(X+time)
-			#	print "NEW REPUEST: ", X+time
 				list_var.sort()
 
 			if (en_rep == 1):
@@ -111,8 +110,6 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 
 				elif (t_rep_2 == float('inf')):
 					t_rep_2 = time + Y
-			#print "CASO 1: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-			#sys.stdin.read(1)
 
 		elif (t_rep_1 < list_var[0] and t_rep_2 < list_var[0]):
 			
@@ -126,9 +123,6 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 
 				if (en_rep == 0 or en_rep ==1):
 					t_rep_1 = float('inf')
-				
-				#print "CASO 2a: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-				#sys.stdin.read(1)
 
 			elif (t_rep_2 < t_rep_1):
 				time = t_rep_2
@@ -140,9 +134,6 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 
 				if (en_rep == 0 or en_rep ==1):
 					t_rep_2 = float('inf')
-				
-				#print "CASO 2b: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-				#sys.stdin.read(1)
 
 		elif (t_rep_1 < list_var[0]):
 			
@@ -155,9 +146,6 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 
 			if (en_rep == 0 or en_rep ==1):
 				t_rep_1 = float('inf')
-			
-			#print "CASO 2: time= "+ str(time) + " T1= " + str(list_var[0]) + " T1*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-			#sys.stdin.read(1)
 		
 		elif (t_rep_2 <= list_var[0]): #and list_var[0] < t_rep_1):
 			
@@ -170,11 +158,6 @@ def reparacion_2(sanas, repuestos, Tf, Tr):
 
 			if (en_rep == 0 or en_rep == 1):
 				t_rep_2 = float('inf')
-
-			#print "CASO 3: time= "+ str(time) + " T1= " + str(list_var[0]) + " T2*= " + str(t_rep_1) + " T2*= " + str(t_rep_2)
-			#sys.stdin.read(1)
-		
-		#sys.stdin.read(1)
 
 def un_operario(n):
 	result = []
@@ -197,13 +180,14 @@ def un_repuesto_mas(n):
 def ejemplo():
 	#sist_normal = un_operario(10000)
 	sist_repuesto 	= un_repuesto_mas(10000)
-	#sist_doble 		= dos_operarios(10000)
+	sist_doble 		= dos_operarios(10000)
 
 	bins = np.linspace(0, 10, 40)
 	#plt.hist(sist_doble, bins, histtype='bar', rwidth=0.65, color='c', edgecolor='b', label='Dos Operarios')
 	#plt.hist(sist_repuesto, bins, histtype='bar', rwidth=0.65, color='g', edgecolor='none', label='Nuevo Repuesto')
 	#plt.hist(sist_normal, bins, histtype='bar', rwidth=0.65, color='c',label='Sistema Actual')
-	plt.hist(sist_repuesto, bins, histtype='bar', rwidth=0.65, color='c',label='Nuevo Repuesto')
+	plt.hist(sist_repuesto, bins, histtype='bar', alpha=0.5, ls='-', lw=1, rwidth=0.65, color='w',label='Nuevo Repuesto')
+	plt.hist(sist_doble, bins, histtype='bar', alpha=0.5, ls='--', lw=1.5, rwidth=0.65, color='w', label='Dos Operarios')
 	plt.xlabel('Tiempo de Falla (Meses)')
 	plt.xticks(np.arange(min(bins), max(bins)+1, 1.0))
 	plt.ylabel('Cantidad de Fallas')
