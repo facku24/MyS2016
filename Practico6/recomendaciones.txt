@@ -1,0 +1,91 @@
+---------------------------------------------
+            P-VALOR DISCRETO
+---------------------------------------------
+* Dada la función esperada, generamos n v.a.i
+de la distribucion mediante simulacion.
+* Los ordenamos y esos son nuestros intervalos
+* Nj = # valores que cayeron en [yj-1, yj)
+* T = (Nj - npj)² / npj
+* p-valor > alpha, no se rechaza.
+
+---------------------------------------------
+            P-VALOR DISCRETO SIMULACION
+---------------------------------------------
+* Una vez obtenido T = t, luego, solo basta
+generar muchas veces conjuntos de n variables
+y calcularle su T. 
+Luego tomamos el promedio de aquellos que si 
+superen a t.
+
+---------------------------------------------
+            P-VALOR CONTINUO
+---------------------------------------------
+* Para este caso, se contruye la empírica.
+que es la proporcion. 1/n, básicamente.
+Luego mi estadístico es 
+D = max{i/n - F(yi), F(yi-1) - (i-1)/n}
+de todos los valores.
+
+
+---------------------------------------------
+            BOOTSTRAP SERVIDOR
+---------------------------------------------
+* Ni = numeros de clientes al dia i
+* Di = tiempos que permanecen los clientes al dia i
+
+luego la media es mu = E[D]/E[N] (cociente de numeros
+esperados)
+
+Simulacion!!:
+
+* Estimo E[D] mediante su promedio, llamado d
+* Estimo E[N] mediante su promedio, llamado n
+* Estimo mu mediante su cociente.
+* La dist empirica dice que todos son equiprobables
+
+Con esos valores fijos, luego procedemos a la aprox boot
+
+* Simulamos el evento B veces y calculamos los
+errores cuadrados medios de cada simulacion
+
+Yi = ((sum Di/sum Ni) - d/n)²)
+
+Luego ECM se aprox como (sum Yi)/B
+
+
+---------------------------------------------
+            BINOMIAL
+---------------------------------------------
+
+
+
+
+
+
+
+---------------------------------------------
+        recursiones
+---------------------------------------------
+
+Prom(Xi+1) = Prom(Xj) + (Xj+1 - Prom(Xj)) / j+1
+
+Var(Sj+1) = (1 - 1/j) Var(Sj) + (j+1)(Prom(Xj+1)-Prom(Xj))²
+
+
+
+
+
+
+
+
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
