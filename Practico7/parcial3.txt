@@ -1,0 +1,81 @@
+Ejercicio 1
+
+a. Puebe que la distribucion del estadistico D de K-S no depende 
+de la distribución de la muestra inicial con la cual se construye
+
+b. Si N(t) es un proceso Poisson, enuncie las condiciones que lo definen
+y diga como generar un test de bondad de ajuste para este modelo.
+
+Ejercicio 2
+
+en un acto eleccionario se presentan 5 listas. La votacion se realiza 
+por claustros y arroja los siguiente resultados para el numero
+de votos
+
+                A       B       C       D       E
+claustro1       35      128     20      3       41
+claustro2       12      27      9       3       11
+
+una encuesta realizada previamente estimaba las siguientes proporciones
+
+                A       B       C       D       E
+    porcentaje  12%     50%     12%     10%     16%
+
+a. Puede decirse que existe una diferencia significativa entre los
+dos claustros?
+b. Diseñe una prueba de hipòtesis para determinar si la encuesta 
+es correcta
+c. defina el valor p a partir de la hip nula
+d. calcule el valor p bajo la hipotesis de que la encuesta es correcta, 
+usando la aproximación chi cuadrado, para ambos claustros
+e. Calcule el valor p bajo la hipótesis de que la encuesta es correcta,
+usando una simulación para ambos claustros
+
+Ejercicio 3
+
+Los griegos utilizaron en muchas de sus contrucciones el denominado
+rectangulo de oro, definido como aquel en el que la proporción entre
+el lado menos y el lado mayor es igual a 0.618. En un reciente yacimieto
+arqueologico de los indios americanos de la tribu shoshomi se encontraron
+prendas de cuero decoradas con raactèngulos de proporcines parecidas.
+Los siguiente datos son proporciones de diez de tales rectàngulos elegidos
+al azar.
+
+0.615, .0622, 0.631, 0.617, 0.617, 0.620, 0.621, 0.620, 0.627, 0.611
+
+a la vista de estos datos, realizar una aprox bottstrap de
+
+            P[|Xmedia - mu| < 0.01]
+
+Enunciar las conclusiones
+
+Ejercicio 4
+
+Se sortean elementos de un conjunto de datos que tiene una distribucion binomial,
+con parametros n = 50, p = 0.7. El investigador, que no conoce la forma verdadera de 
+la distribución, asume que es una variable aleatoria con distribución normal que fue 
+redondeada al entero mas cercano.
+
+a. Realice una estimacin de los parametros de la distribucion, asumiendo que
+es normal
+b. Analice la validez de esta suposición para muestras de tamañ 10, 20 100 y 1000
+elementos simulados. Presente los resultados en una tabla que contenga el numero de 
+elementos de la simulacion, el valor estadístico D y el valor p
+c. Determine cuantas simulaciones son necesarias para asegurar con una confianza del
+95% que la media se encuentra a menos de 0.01 del valor poblacional
+
+Ejercicio 5
+
+Un juego de casino consiste en arrojar 3 dados, y ganar un premio proporcional a la
+cantidad de dados que dan un seis. Un jugador arroja los dads 100 veces y obtiene
+3 veces triple seis, 15 veces doble seis, 34 veces sale un seis y 48 veces ningún seis.
+El casino sospecha que el jugador hace trampa, por ejemplo usando dados cargados.
+
+a. Establezca una prueba de hipotesis para determinar si el jugador hace trampa.
+Explique todos los elementos de la prueba: estadístico, hipótesis, nivel de
+confianza, etc.
+b. Realice los cálculos neesarios para responder a la pregunta de si el jugador hace trampa,
+para ello, aplique la prueba de hipótesis, calcule el p-valor y escriba sus conclusiones
+c. Simule el experimento de arrojar 3 dados, y utilice los resultados para evaluar si los
+dados son justos.
+
