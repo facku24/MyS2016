@@ -12,11 +12,30 @@ def next_step(n):
 	return counter
 
 def ej1():
-	matrix = g2p(G1)
+	graph = G1
 	index_init = int(10*random())
+	next_index = index_init
+	counters = []
+
+	#inicializamos el arreglo contadores
+	for _ in range(len(G1)):
+		counters.append(0)
+
+	print index_init
+	for _ in range(1000):
+		row = graph[next_index]
+		new_step = next_step(len(row))
+		next_index = row[new_step]
+		counters[next_index] += 1
+
+	for i in range(len(G1)):
+		counters[i] = counters[i]/float(1000)
+	print counters
 
 def test():
 	matrix = g2p(G1)
 	print G1[1], matrix[1]
 
-next_step(4)
+#for _ in range(5):
+ej1()
+
