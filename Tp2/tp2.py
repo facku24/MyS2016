@@ -176,7 +176,7 @@ def hacker(graph, k):
 	new_graph = ()
 	indexed = []
 	
-	while (len(indexed) <= k):
+	while (len(indexed) < k):
 		var = int(new_node*random())
 		if not (var in indexed):
 			indexed.append(var)
@@ -237,7 +237,7 @@ def ej5a(graph, k):
 		counter.append(0)
 
 	for i in range(100):
-		result = estacionaridad(graph)
+		result = estacionaridad(graph, 100, False, 0)
 
 		for i in range(len(result)):
 			counter[i] += result[i]
@@ -248,14 +248,14 @@ def ej5a(graph, k):
 	return counter
 
 def ej5b(graph, k):
-	graph = hacker(graph)
+	graph = hacker(graph, k)
 	counter = []
 
 	for i in range(len(graph)):
 		counter.append(0)
 
 	for i in range(100):
-		result = estacionaridad(graph)
+		result = estacionaridad(graph, 100, False, 0)
 		for i in range(len(result)):
 			counter[i] += result[i]
 
@@ -264,7 +264,8 @@ def ej5b(graph, k):
 	
 	return counter
 #------- EJERCICIO 1 -------
-print hacker(G1, 5)
+print ej5a(G1, 6)
+print ej5b(G1, 6)
 # ej1(G1, 100, False, 0)
 # ej1(G1, 100, True, 0.85)
 #------- EJERCICIO 2 -------
