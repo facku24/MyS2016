@@ -25,24 +25,28 @@ def next_step(row):
 
 	return index
 
-def estacionaridad(graph):
+def estacionaridad(graph, n, rank, alfa):
 	size = len(graph)
 	next_index = int(size*random())
 	counters = []
-	matrix = g2p(graph)
+
+	if rank:
+		matrix = g2p_pagerank(graph, alfa)
+	else:
+		matrix = g2p(graph)
 
 	#inicializamos el arreglo contadores
 	for _ in range(size):
 		counters.append(0)
 
 	# Camino n pasos
-	for _ in range(10):
+	for _ in range(n):
 		row = matrix[next_index] 		#siguiente columna de nodos
 		next_index = next_step(row)		#siguiente nodo a visitar
 		counters[next_index] += 1
 
 	for i in range(size):
-		counters[i] = counters[i]/float(10)
+		counters[i] = counters[i]/float(n)
 	return counters
 
 def time_to_cross(graph, rank, alfa):
@@ -167,37 +171,32 @@ def page_adder(graph, num_pag):
 
 	return graph
 
-def hacker(graph):
+def hacker(graph, k):
 	new_node = len(graph)
 	new_graph = ()
+	indexed = []
+	
+	while (len(indexed) <= k):
+		var = int(new_node*random())
+		if not (var in indexed):
+			indexed.append(var)
+
+	indexed.sort()
+	print indexed, len(indexed)
 	
 	for i in range(new_node):
-		new_graph += (graph[i] + (new_node,),)
+		if (i in indexed):
+			new_graph += (graph[i] + (new_node,),)
+		else:
+			new_graph += (graph[i],)
 
 	new_graph += ((new_node,),)
 	
 	return new_graph
 
-def ej1():
-	graph = G1
-	index_init = int(10*random())
-	next_index = index_init
-	counters = []
-	matrix = g2p(graph)
-	
-	#inicializamos el arreglo contadores
-	for _ in range(len(G1)):
-		counters.append(0)
+def ej1(graph, n, rank, alfa):
 
-	# Camino n pasos
-	for _ in range(10000):
-		row = graph[next_index] 		#siguiente columna de nodos
-		next_index = next_step(row)		#siguiente nodo a visitar
-		counters[next_index] += 1
-
-	for i in range(len(G1)):
-		counters[i] = counters[i]/float(10000)
-	print counters
+	print estacionaridad(graph, n, rank, alfa)
 
 def ej2(graph, n, rank, alfa):
 	counter_t = []
@@ -265,54 +264,82 @@ def ej5b(graph, k):
 	
 	return counter
 #------- EJERCICIO 1 -------
-
+print hacker(G1, 5)
+# ej1(G1, 100, False, 0)
+# ej1(G1, 100, True, 0.85)
 #------- EJERCICIO 2 -------
-#ej2(G1, 10, False, 0)
-#ej2(G1, 10, True, 0.85)
-#print " "
-#ej2(G2, 10, False, 0)
-#ej2(G2, 10, True, 0.85)
+# ej2(G1, 10, False, 0)
+# ej2(G1, 10, True, 0.85)
+# print " "
+# ej2(G2, 10, False, 0)
+# ej2(G2, 10, True, 0.85)
 
 #------- EJERCICIO 3 -------
-# print ej3(G1, 100, True, 0.05)
-# print ej3(G1, 100, True, 0.15)
-# print ej3(G1, 100, True, 0.25)
-# print ej3(G1, 100, True, 0.35)
-# print ej3(G1, 100, True, 0.45)
-# print ej3(G1, 100, True, 0.55)
-# print ej3(G1, 100, True, 0.65)
-# print ej3(G1, 100, True, 0.75)
-# print ej3(G1, 100, True, 0.85)
-# print ej3(G1, 100, True, 0.95)
-# print ej3(G1, 100, False, 0)
+# print "ej3(G1, 100, True, 0.05)", ej3(G1, 100, True, 0.05)
+# print "ej3(G1, 100, True, 0.15)", ej3(G1, 100, True, 0.15) 
+# print "ej3(G1, 100, True, 0.25)", ej3(G1, 100, True, 0.25)
+# print "ej3(G1, 100, True, 0.35)", ej3(G1, 100, True, 0.35)
+# print "ej3(G1, 100, True, 0.45)", ej3(G1, 100, True, 0.45)
+# print "ej3(G1, 100, True, 0.55)", ej3(G1, 100, True, 0.55)
+# print "ej3(G1, 100, True, 0.65)", ej3(G1, 100, True, 0.65)
+# print "ej3(G1, 100, True, 0.75)", ej3(G1, 100, True, 0.75)
+# print "ej3(G1, 100, True, 0.85)", ej3(G1, 100, True, 0.85)
+# print "ej3(G1, 100, True, 0.95)", ej3(G1, 100, True, 0.95)
+# print "ej3(G1, 100, False, 0)", ej3(G1, 100, False, 0)
 # print " "
-# print ej3(G2, 100, True, 0.05)
-# print ej3(G2, 100, True, 0.15)
-# print ej3(G2, 100, True, 0.25)
-# print ej3(G2, 100, True, 0.35)
-# print ej3(G2, 100, True, 0.45)
-# print ej3(G2, 100, True, 0.55)
-# print ej3(G2, 100, True, 0.65)
-# print ej3(G2, 100, True, 0.75)
-# print ej3(G2, 100, True, 0.85)
-# print ej3(G2, 100, True, 0.95)
-# print ej3(G2, 100, False, 0)
+# print "ej3(G2, 100, True, 0.05)", ej3(G2, 100, True, 0.05)
+# print "ej3(G2, 100, True, 0.15)", ej3(G2, 100, True, 0.15)
+# print "ej3(G2, 100, True, 0.25)", ej3(G2, 100, True, 0.25)
+# print "ej3(G2, 100, True, 0.35)", ej3(G2, 100, True, 0.35)
+# print "ej3(G2, 100, True, 0.45)", ej3(G2, 100, True, 0.45)
+# print "ej3(G2, 100, True, 0.55)", ej3(G2, 100, True, 0.55)
+# print "ej3(G2, 100, True, 0.65)", ej3(G2, 100, True, 0.65)
+# print "ej3(G2, 100, True, 0.75)", ej3(G2, 100, True, 0.75)
+# print "ej3(G2, 100, True, 0.85)", ej3(G2, 100, True, 0.85)
+# print "ej3(G2, 100, True, 0.95)", ej3(G2, 100, True, 0.95)
+# print "ej3(G2, 100, False, 0)", ej3(G2, 100, False, 0)
 #------- EJERCICIO 4 -------
-# print ej3(g12a, 100, False, 0)
-# print ej3(g12b, 100, False, 0)
-# print ej3(g12c, 100, False, 0)
-# print ej3(g12d, 100, False, 0)
-
-# print ej3(g4, 100, False, 0)
-# print ej3(g5, 100, False, 0)
-# print ej3(g6, 100, False, 0)
-# print ej3(g7, 100, False, 0)
-# print ej3(g8, 100, False, 0)
-# print ej3(g9, 100, False, 0)
-# print ej3(g10, 100, False, 0)
-# print ej3(g11, 100, False, 0)
-# print ej3(g12, 100, False, 0)
-# print ej3(g12a, 100, False, 0)
+# print "ej3(g3a, 100, False, 0)", ej3(g3a, 100, False, 0)
+# print "ej3(g3b, 100, False, 0)", ej3(g3b, 100, False, 0)
+# print "ej3(g3c, 100, False, 0)", ej3(g3c, 100, False, 0)
+# print "ej3(g3d, 100, False, 0)", ej3(g3d, 100, False, 0)
+# print "ej3(g4a, 100, False, 0)", ej3(g4a, 100, False, 0)
+# print "ej3(g4b, 100, False, 0)", ej3(g4b, 100, False, 0)
+# print "ej3(g4c, 100, False, 0)", ej3(g4c, 100, False, 0)
+# print "ej3(g4d, 100, False, 0)", ej3(g4d, 100, False, 0)
+# print "ej3(g5a, 100, False, 0)", ej3(g5a, 100, False, 0)
+# print "ej3(g5b, 100, False, 0)", ej3(g5b, 100, False, 0)
+# print "ej3(g5c, 100, False, 0)", ej3(g5c, 100, False, 0)
+# print "ej3(g5c, 100, False, 0)", ej3(g5d, 100, False, 0)
+# print "ej3(g6a, 100, False, 0)", ej3(g6a, 100, False, 0)
+# print "ej3(g6b, 100, False, 0)", ej3(g6b, 100, False, 0)
+# print "ej3(g6c, 100, False, 0)", ej3(g6c, 100, False, 0)
+# print "ej3(g6d, 100, False, 0)", ej3(g6d, 100, False, 0)
+# print "ej3(g7a, 100, False, 0)", ej3(g7a, 100, False, 0)
+# print "ej3(g7b, 100, False, 0)", ej3(g7b, 100, False, 0)
+# print "ej3(g7c, 100, False, 0)", ej3(g7c, 100, False, 0)
+# print "ej3(g7d, 100, False, 0)", ej3(g7d, 100, False, 0)
+# print "ej3(g8a, 100, False, 0)", ej3(g8a, 100, False, 0)
+# print "ej3(g8b, 100, False, 0)", ej3(g8b, 100, False, 0)
+# print "ej3(g8c, 100, False, 0)", ej3(g8c, 100, False, 0)
+# print "ej3(g8d, 100, False, 0)", ej3(g8d, 100, False, 0)
+# print "ej3(g9a, 100, False, 0)", ej3(g9a, 100, False, 0)
+# print "ej3(g9b, 100, False, 0)", ej3(g9b, 100, False, 0)
+# print "ej3(g9c, 100, False, 0)", ej3(g9c, 100, False, 0)
+# print "ej3(g9d, 100, False, 0)", ej3(g9d, 100, False, 0)
+# print "ej3(g10a, 100, False, 0)", ej3(g10a, 100, False, 0)
+# print "ej3(g10b, 100, False, 0)", ej3(g10b, 100, False, 0)
+# print "ej3(g10c, 100, False, 0)", ej3(g10c, 100, False, 0)
+# print "ej3(g10d, 100, False, 0)", ej3(g10d, 100, False, 0)
+# print "ej3(g11a, 100, False, 0)", ej3(g11a, 100, False, 0)
+# print "ej3(g11b, 100, False, 0)", ej3(g11b, 100, False, 0)
+# print "ej3(g11c, 100, False, 0)", ej3(g11c, 100, False, 0)
+# print "ej3(g11d, 100, False, 0)", ej3(g11d, 100, False, 0)
+# print "ej3(g12a, 100, False, 0)", ej3(g12a, 100, False, 0)
+# print "ej3(g12b, 100, False, 0)", ej3(g12b, 100, False, 0)
+# print "ej3(g12c, 100, False, 0)", ej3(g12c, 100, False, 0)
+# print "ej3(g12d, 100, False, 0)", ej3(g12d, 100, False, 0)
+# print ""ej3(g12a, 100, False, 0)
 #------- EJERCICIO 5 -------
 #print ej5a(G1, 6)
 #print ej5b(G1, 10)
