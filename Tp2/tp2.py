@@ -181,9 +181,6 @@ def hacker(graph, k):
 		if not (var in indexed):
 			indexed.append(var)
 
-	indexed.sort()
-	print indexed, len(indexed)
-	
 	for i in range(new_node):
 		if (i in indexed):
 			new_graph += (graph[i] + (new_node,),)
@@ -231,9 +228,11 @@ def ej3(graph, n, rank, alfa):
 
 def ej5a(graph, k):
 	graph = page_adder(graph, k)
+	size = len(graph)
+	print "LONGITUD DEL GRAFO: ", len(graph)
 	counter = []
 
-	for i in range(16):
+	for i in range(size):
 		counter.append(0)
 
 	for i in range(100):
@@ -242,16 +241,17 @@ def ej5a(graph, k):
 		for i in range(len(result)):
 			counter[i] += result[i]
 
-	for i in range(16):
+	for i in range(size):
 		counter[i] = counter[i]/float(100)
 	
 	return counter
 
 def ej5b(graph, k):
 	graph = hacker(graph, k)
+	size = len(graph)
 	counter = []
 
-	for i in range(len(graph)):
+	for i in range(size):
 		counter.append(0)
 
 	for i in range(100):
@@ -259,13 +259,13 @@ def ej5b(graph, k):
 		for i in range(len(result)):
 			counter[i] += result[i]
 
-	for i in range(len(graph)):
+	for i in range(size):
 		counter[i] = counter[i]/float(100)
 	
 	return counter
 #------- EJERCICIO 1 -------
-print ej5a(G1, 6)
-print ej5b(G1, 6)
+print ej5a(G2, 6)
+print ej5b(G2, 6)
 # ej1(G1, 100, False, 0)
 # ej1(G1, 100, True, 0.85)
 #------- EJERCICIO 2 -------
