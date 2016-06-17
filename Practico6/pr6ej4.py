@@ -3,6 +3,7 @@ from random import random
 #from scipy.special import ndtr ndtri #ndtr me da la acumulada, la otra es la inversa. Para los alphas!
 import math
 
+#remember 1.96 -> 95% o 9.95
 #The value of e is 2.718281828459045 aprox
 def experimento(stop_value):
     lista = []

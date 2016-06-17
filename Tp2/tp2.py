@@ -264,10 +264,8 @@ def ej5b(graph, k):
 	
 	return counter
 #------- EJERCICIO 1 -------
-print ej5a(G2, 6)
-print ej5b(G2, 6)
-# ej1(G1, 100, False, 0)
-# ej1(G1, 100, True, 0.85)
+#ej1(G1, 100, False, 0)
+#ej1(G1, 100, True, 0.85)
 #------- EJERCICIO 2 -------
 # ej2(G1, 10, False, 0)
 # ej2(G1, 10, True, 0.85)
@@ -344,3 +342,6 @@ print ej5b(G2, 6)
 #------- EJERCICIO 5 -------
 #print ej5a(G1, 6)
 #print ej5b(G1, 10)
+
+print ej5a(G2, 20)
+print ej5b(G2, 20)

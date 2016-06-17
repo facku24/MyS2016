@@ -1,0 +1,219 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Plantilla para un artículo en LaTeX en español.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+% Esto es para poder escribir acentos directamente:
+\usepackage[latin1]{inputenc}
+% Esto es para que el LaTeX sepa que el texto está en español:
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+% Paquetes de la AMS:
+\usepackage{amsmath, amsthm, amsfonts}
+\addtolength{\oddsidemargin}{-.875in}
+\addtolength{\evensidemargin}{-.875in}
+\addtolength{\textwidth}{1.in}
+
+\addtolength{\topmargin}{-.775in}
+\addtolength{\textheight}{1.75in}
+
+\setlength{\parindent}{0cm}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+% Teoremas
+%--------------------------------------------------------------------------
+\newtheorem{thm}{Teorema}[section]
+\newtheorem{cor}[thm]{Corolario}
+\newtheorem{lem}[thm]{Lema}
+\newtheorem{prop}[thm]{Proposición}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definición}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Observación}
+
+% Atajos.
+% Se pueden definir comandos nuevos para acortar cosas que se usan
+% frecuentemente. Como ejemplo, aquí se definen la R y la Z dobles que
+% suelen representar a los conjuntos de números reales y enteros.
+%--------------------------------------------------------------------------
+
+\def\RR{\mathbb{R}}
+\def\ZZ{\mathbb{Z}}
+
+% De la misma forma se pueden definir comandos con argumentos. Por
+% ejemplo, aquí definimos un comando para escribir el valor absoluto
+% de algo más fácilmente.
+%--------------------------------------------------------------------------
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+
+% Operadores.
+% Los operadores nuevos deben definirse como tales para que aparezcan
+% correctamente. Como ejemplo definimos en jacobiano:
+%--------------------------------------------------------------------------
+\DeclareMathOperator{\Jac}{Jac}
+
+%--------------------------------------------------------------------------
+\title{Trabajo Especial II \\ {\small{Modelos y Simulación 2016}}}
+\author{Facundo Ramallo\\
+%  \small Dept. Plantillas y Editores\\
+%  \small E12345\\
+%  \small España
+}
+\date{}
+\begin{document}
+\maketitle
+
+\abstract{En el presente informe, se hace uso de cadenas de Markov a fin de simular la caminata de una persona en un grafo dirigido. A través de diferentes simulaciones, se computaran diversos resultados para cada uno de los experimentos.}
+
+\section{Introducción}
+
+Las cadenas de Markov poseen ciertas propiedades que en nuestros experimentos son deseables.
+Básicamente, estamos interesado en desplazarnos a través de un grafo dirigido teniendo en cuenta nuestro estado actual, no todo el trayecto ya recorrido. Markov nos da las pautas necesarios para llevar a cabo nuestras simulaciones, y junto con los cambios necesarios en las cadenas de Markov, podemos optimizar estos valores.\\
+
+\section{Simulaciones}
+
+\noindent \bf{Distribución Estacionaria} \rm\\
+
+El primer análisis a realizar es la \textit{distribución estacionaria} sobre el grafo G1. Cuando nos referimos a \textit{distribución estacionaria}, en este caso, hacemos referencia a la probabilidad que tienen los nodos de ser visitados en una caminata infinita. Dicho de otra manera, a largo plazo, cuál es el nodo que tiene más probabilidad de estar siendo visitado en un instante cualquiera.\\\\
+Para ello, básicamente ponemos a caminar a nuestro sujeto eligiendo primeramente un nodo al azar y luego eligiendo cada uno de los nodos sucesivos, en base a sus probabilidades. Cabe destacar que estas probabilidades vienen dadas por uan matriz de adyacencia, la cual nos indica los nodos vecinos de un nodo en particular. Otra aclaración importante es que hemos usado una distribución uniforme entre los nodos vecinos. Esto es, si un nodo \textit{i}, es capaz de moverse hacia cuatro nodos diferentes, cada uno de éstos tendrá una probabilidad de 0.25 de ser seleccinado.\\\\
+Luego, sólo basta generar una variable aleatoria uniforme e ir sumando cada una de estas probabilidades hasta superar al valor de la variable. Cuando dicho evento ocurre, el último nodo considerado, es el elegido para el desplazamiento.\\\\
+Esta simulación es generada un total de 100 veces, y a continuación mostramos los resultados obtenidos:\\
+
+\begin{table}[h!]
+  \centering
+  
+  \label{tab:table1}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  	\hline
+    Modo,Nodo & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
+    \hline
+    Normal & 0.17 & 0.09 & 0.24 & 0.13 & 0.06 & 0.06 & 0.07 & 0.08 & 0.0 & 0.1\\
+    \hline 
+	PR $\alpha$ = 0.85 & 0.17 & 0.09 & 0.29 & 0.06 & 0.09 & 0.06 & 0.1 & 0.05 & 0.02 & 0.07\\
+	\hline
+  \end{tabular}
+\end{table}
+
+donde las posiciones corresponden a los nodos. Así la posición 0, la primera de la lista de valores, corresponde al nodo etiquetado con 0. Vemos que a largo plazo, es uno de los más visitados con el 17$\%$ de probabilidades. Otro que también tiene una gran posibilidad de ser visitado es el nodo 2 con el 28$\%$.\\\\
+Ahora bien, una manera de balancear estos valores, es usando una matriz de PageRank (la segunda línea de la tabla de arriba), que nos permite hacer salto fortuitos dada una cierta probabilidad $\alpha$. Veamos los valores obtenidos en ese caso para un valor de $\alpha$ de 0.85. Observemos que algunos valores se mantienen iguales, mientras que otros o bien decrecieron, o bien crecieron. Salvo por el caso del nodo 2, cuyo valor aumentó, el resto, si poseían un valor mayor a 0.1, decrecieron, y aquellos cuyo valor era menor a 0.1, aumentaron.\\\\
+Esta leve mejora se debe a que con un 85$\%$ de probabilidad, conservamos el comportamiento de la matriz original. Por ello es que se observa un comportamiento muy semejante.\\
+
+\noindent \bf{Tiempo de Cruce} \rm\\
+
+Para este segundo experimento, la idea es estimar cuantos pasos debo dar partiendo de un nodo particular, hasta volver a pasar por dicho nodo. A esto es lo que llamamos \textit{tiempo de cubrimiento}. La simulación en este caso emplea gran parte del código desarrollado anteriormente salvo que para este caso, el número \textit{n}, no es un valor fijo, sino que es variable. Así, varía dependiendo el nodo y dependiendo de la simulación.\\\\
+Para este caso, nuestro algoritmo se posiciona una vez en cada uno de los nodos y simula el experimento partiendo del mismo. Concluido el recorrido, registra en un nuevo arreglo cada uno de los valores obtenidos. Si a este algoritmo lo simulamos \textit{m} veces, podemos calcular la media para cada nodo.\\\\
+Estos números puede mejorarse mediante el empleo de la matriz Page Rank, la cual nos permite hacer saltos aleatorios a otros nodos. Simulando el experimento de la misma manera, nos encontramos efectivamente con la mejora esperada debido a que se decrementan notablemente la cantidad de pasos para muchos de los nodos, como por ejemplo, el nodo 8 que debía recorrer un promedio de 128 nodos antes de volver a ser visitado. Con la matriz Page Rank, ese valor decrece a 35 pasos en promedio!\\\\
+A continuación, exponemos los valores medios obtenidos para cada uno de los diez nodo que conforma el grafo G1, tanto para la matriz de transición original como la de Page Rank:\\
+
+\begin{table}[h!]
+  \centering
+  
+  \label{tab:table1}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  	\hline
+    Modo,Nodo & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
+    \hline
+    Normal & 4.9 & 14.5 & 4.5 & 10.0 & 11.4 & 31.2 & 14.8 & 17.5 & 128.1 & 22.7\\
+    \hline 
+	PR $\alpha$ = 0.85 & 6.1 & 10.6 & 3.1 & 4.2 & 11.9 & 16.7 & 9.9 & 13.7 & 34.7 & 5.2\\
+	\hline
+  \end{tabular}
+\end{table}
+
+
+\noindent \bf{Tiempo de Cubrimiento} \rm\\\\
+
+El \textit{Tiempo de Cubrimiento} es la esperanza sobre el número de pasos que requiere un caminante aleatorio para visitar cada nodo al menos una vez. Este caso, emplea nuevamente el algoritmo de los anteriores, pero lleva la cuenta de cada nodo visitado. Se comienza con un nodo aleatorio, por lo cual no registramos para cada nodo en particular, sino el hecho de empezar en un nodo cualquiera y de allí avanzar. Cuando los nodos se completan, termina nuestro recorrido.\\\\
+Mostramos a continuación los resultados obtenidos de simular 100 veces nuestro algoritmo para los grafos G1 y G2, ya sea tanto para el grafo original, como para su correspondiente en Page Rank con diversos valores de $\alpha$:\\
+
+\begin{table}[h!]
+  \centering
+  \label{tab:table1}
+  \begin{tabular}{|c|c|c|}
+  	\hline
+    Alpha & G1:Pasos & G2:Pasos\\
+    \hline
+    0.05 & 29.43 & 519.02 \\
+    \hline
+	0.15 & 28.51 & 525.62 \\
+    \hline
+	0.25 & 30.27 & 498.47\\
+    \hline
+	0.35 & 30.15 & 521.78\\ 
+    \hline
+	0.45 & 33.6 & 529.85\\
+    \hline
+	0.55 & 38.05 & 519.17\\
+	\hline
+	0.65 & 37.58 & 549.27\\
+	\hline
+	0.75 & 44.32 & 547.61\\
+	\hline
+	0.85 & 55.91 & 553.67\\
+	\hline
+	0.95 & 88.93 & 542.68\\
+	\hline
+	0 & 115.07 & 565.2\\
+	\hline    
+  \end{tabular}
+\end{table}
+
+Como resultado podemos establecer que con pocos nodos, mientras menos conexo sea el grafo, caso de G1, más tiempo va demorando en ser recorrido completamente. Así los tiempos van aumentando a medida que dejamos que nuestro grafo se comporte más como G1.\\\\
+Para el caso de G2, a diferencia del anterior, revela que en términos relativos, los tiempos de demoras no son proporcionales al grafo y su interconectividad sino que depende de la cantidad de nodos presentes. Así, se demora una media de 533 pasos en total.\\
+
+\noindent \bf{Tiempo de Cubrimiento para diversos grafos} \rm\\
+
+Básicamente, esta simulación recrea la anterior pero para diferentes grafos, de tamaños variables. Luego generamos 10 grafos, cuyas longitudes van desde 4 hasta 12, y para cada uno de ellos, obtuvimos la media de tiempo que nos requiere recorrerlos por completo. A continuación presentamos los resultados:
+
+\begin{table}[h!]
+  \centering
+  \label{tab:table1}
+  \begin{tabular}{|c|c|}
+    \hline
+    Nodos & Pasos \\
+    \hline
+    3 & 4.22 \\
+    \hline
+	4 & 11.86 \\
+    \hline
+	5 & 12.85 \\
+    \hline
+	6 & 24.55 \\ 
+    \hline
+	7 & 28.47 \\
+    \hline
+	8 & 37.32 \\
+	\hline
+	9 & 44.17 \\
+	\hline
+	10 & 42.3 \\
+	\hline
+	11 & 41.35 \\
+	\hline
+	12 & 64.26 \\
+	\hline    
+  \end{tabular}
+\end{table}
+
+Luego, podemos ver que si bien, a medida que aumenta la cantidad de nodos también lo hace la cantidad de pasos, en promedio, el resultado no es lineal. Cabe volver a remarcar que va a depender del grafo en particular que se analice.\\
+
+\noindent \bf{Ranking} \rm\\
+
+La idea de este ejercicio es dotar a un nodo nuevo, llamémosle \textit{i}, con un alto ranking, es decir, una alta recurrencia a largo plazo.\\\\
+Una primer alternativa empleada, es la de agregar una cantidad aleatoria \textit{m} de nodos extras y que todos ellos apunten al nodo \textit{i}. De esta manera, al calcular la estacionaridad, cada vez que alguno de estos nuevos \textit{m} es elegido para estimar la estacionariedad de nuestro grafo, el nodo \textit{i} es el único recorrido.\\\\
+Para llevar a cabo la simulación sobre este evento, hacemos uso del grafo G2. Recordemos que el mismo consta de 100 nodos. A estos, les sumamos 20 nodos más: el 101-\textit{iésimo} como nuevo nodo troncal, y el resto como orbitales al mismo, es decir, que apuntan al nodo 101.\\\\
+La simulación establece que el nodo 101 posee una probabilidad del 12$\%$ de estacionariedad. Es decir, que a la larga, tiene esa probabilidad de ser frecuentado. Dicho valor es interesante, debido a que los siguientes nodos en ser altamente frecuentables poseen tan sólo una probabilidad del 1$\%$.\\\\
+La segunda alternativa contemplada, es tomar \textit{m} nodos, donde \textit{m} es un número menor a la totalidad de los nodos del grafo, y anexarles como posible vecino a nuestro nodos 101. Este expemimento nos arroja una probabilidad de frecuencia del 24 $\%$ para nuestro nuevo nodo, seguido de igual manera por probabilidades del 1$\%$ como segundo orden de estacionariedad. Luego, sin lugar a dudas este método es preferible.\\\\
+Observermos que este método es esperable, debido a que para este caso, puedo llegar a mi nuevo nodo a partir de algunos ya existentes en el grafo: Como la cantidad de nodos es siempre la misma, las probabilidades de ser elegidos no varía para los nodos, sumado a que alguno de ellos puede conducir a mi nuevo nodo. En el caso de la primer alternativa, al agregar nuevos nodos, las probabilidades de elección se decrementa para todos los nodos. Luego debemos también considerar que los casos favorables para llegar a el nuevo nodo, es una pqueña población respecto a los casos probables, por lo cual, se me reduce mi chance de llegar al nuevo nodo \textit{i}.
+
+\section{Conclusión}
+De esta manera, damos por terminado el análisis de grafos y las diferentes propiedades pertenecientes a los mismo, mediante el empleo de Markov. Hemos analizado diferentes tipos de coberturas respecto a los mismo, siempre dependiendo del estado actual y de ningún otro anterior. 
+\end{document}
