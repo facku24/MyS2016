@@ -342,6 +342,7 @@ def ej5b(graph, k):
 #------- EJERCICIO 5 -------
 #print ej5a(G1, 6)
 #print ej5b(G1, 10)
+#print ""
+#print ej5a(G2, 20)
+#print ej5b(G2, 20)
 
-print ej5a(G2, 20)
-print ej5b(G2, 20)
