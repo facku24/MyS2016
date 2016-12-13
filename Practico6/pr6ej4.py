@@ -1,6 +1,7 @@
 from random import normalvariate
 from random import random
-#from scipy.special import ndtr ndtri #ndtr me da la acumulada, la otra es la inversa. Para los alphas!
+#from scipy.special import ndtr ndtri #ndtr me da la acumulada, la otra es la inversa. 
+#Para los alphas!
 import math
 
 #remember 1.96 -> 95% o 9.95

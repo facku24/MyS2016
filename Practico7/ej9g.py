@@ -1,5 +1,8 @@
 #This example uses recursion to calculate p
-
+mu2 = [6.53, 12.50, 4.34, 7.69, 12.41, 14.79, 11.02, 15.52, 43.40, 13.14]
+mu1 = [6.98, 9.66, 3.53, 8.92, 12.9, 18.18, 15.56, 13.46, 42.25, 12.33]
+mu1.sort()
+mu2.sort()
 muestra1 = [132, 104, 162, 171, 129]
 muestra2 = [107, 94, 136, 99, 114, 122, 108, 130, 106, 88]
 muestra1.sort()
@@ -77,4 +80,5 @@ def algoritmo_recursivo(n, m, t):
 		return 2*(1-p[n, m, t-1])
 
 print(algoritmo_recursivo(5, 10, 55))
-print(recursion(5, 10, 55))
+#print(recursion(5, 10, 55))
+print algoritmo_recursivo(10, 10, 103)
