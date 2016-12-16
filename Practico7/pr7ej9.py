@@ -1,143 +1,74 @@
-from random import random
-import numpy as np
 import math
-import scipy.stats as st
+from random import random
+from scipy.stats.distributions import chi2
+#valores = [0.76, 1.95, 1.62, 0.75, 0.75, 0.36, 2.23, 1.21, 0.88, 0.31, 0.39, 0.80, 0.3, 0.32, 0.92]
+#valores = []
 
-tratamiento1 = [65.2, 67.1, 69.4, 78.4, 74.0, 80.3]
-tratamiento2 = [59.4, 72.1, 68.0, 66.2, 58.5]
+def generador_values_expo():
+	values = []
+	for _ in range(15):
+		values.append(- math.log(random()))
+	return values
 
-def generador_subset(total_set, longitud):
-	'''
-	Esta funcion genera un subconjunto del conjunto total.
+valores = generador_values_expo()
+#print valores
 
-	param - total_set: El conjunto total. No requiere que este ordenado
-	'''
+def generador_media():
+	#valores = [1.6,10.3,3.5,13.5,18.4,7.7,24.3,10.7,8.4,4.9,7.9,12.,16.2,6.8,14.7]
+	media = sum(valores)
+	media = media/len(valores)
+	return media
 
-	length = len(total_set)
-	k = length-1
+def generator_exp_values(n, media):
+	#values = [1.6,10.3,3.5,13.5,18.4,7.7,24.3,10.7,8.4,4.9,7.9,12.,16.2,6.8,14.7]
+	valores.sort()
+	values_f 	= []
+	for i in valores:
+		values_f.append(1 - math.e**(-i/float(media)))
+	return values_f
 
-	while (k > 0):
-		u = int(length * random())
-		aux = total_set[k]
-		total_set[k] = total_set[u]
-		total_set[u] = aux
-		k -= 1
-
-	return total_set[0: longitud]
-
-def rango(totalset, subset):
-	'''
-	This function generates the rank fot subset.
-
-	param - totalset: Debe de ser el conjunto total y ordenado de todas las muestras
-					  simuladas y las muestras observadas
-	param - subset: Debe de ser el subconjunto al cual le quiero generar el rango
-	'''
-	rango = 0
-	index = 0
-
-	totalset.sort()
-	subset.sort()
-	
-	for elem in subset:
-		while True:
-			if (totalset[index] == elem):
-				if (index < len(totalset)-1 and totalset[index] == totalset[index+1]):
-					rango += (2*index+3) /float(2)
-				elif (index > 0 and totalset[index] == totalset[index-1]):
-					rango += (2*index+1) /float(2)
-				else:
-					rango += index + 1
-				break
-			else:
-				index+=1
-	return rango
-
-def p_valor_gen(n, m, t):
-	'''
-	Esta funcion calcula el valor exacto del p-valor mediante recursion.
-
-	param - n: la cantidad de datos de la muestra mas chica
-	param - m: la cantidad de datos de la muestra mas grande
-	param - t: el rango obtenido de la muestra chica
-	'''
-
-	p = {}
-
-	for i in range(0, n+1):
-		for j in range(0, m+1):
-			for k in range(0, t+1):
-				p[i, j, k] = 0
-
-	#inicializaciones
-	for i in range(1, n+1):
-		for k in range(i * (i + 1)/2, t+1):
-			p[i, 0, k] = 1
-
-	for k in range(1, t+2):
-		for j in range(1, m+1):
-			p[0, j, k-1] = 1
-
-	for i in range(1, n+1):
-		for j in range(1, m+1):
-			for k in range(1, t+1):
-				if (k < i+j):
-					p[i, j, k] = (j/float(i+j)) * p[i, j-1, k]
-				else:
-					value1 = (i / float(i+j))
-					value2 = (j / float(i+j))
-					p[i, j, k] =  value1 * p[i-1, j, k-i-j] +  value2 * p[i, j-1, k]
-
-	if (p[n, m, t] < 1-p[n, m, t-1]):
-		return 2*p[n, m, t]
-	else:
-		return 2*(1-p[n, m, t-1])
-
-def p_valor_normal_gen(n, m, r):
-	'''
-	Esta funcion calcula el valor del p-valor mediante la aproximacion
-	con la distribucion normal.
-
-	param - n: la cantidad de datos de la muestra mas chica
-	param - m: la cantidad de datos de la muestra mas grande
-	param - t: el rango obtenido de la muestra chica
-	'''
-
-	numerador = r - n * (n+m+1)/float(2)
-
-	value = numerador / float(math.sqrt(n*m*(n+m+1)/float(12)))
-	normal = st.norm()
-	if (numerador > 0):
-		return 2* (1-normal.cdf(value))
-	else:
-		return 2* (normal.cdf(value))
-
-def p_valor_simulacion_gen(n, totalset, t):
-	p_inf = 0
-	p_sup = 0
-
+def generator_unif_values(n):
+	values = []
 	for _ in range(n):
-		subset = generador_subset(totalset, 5)
-		r = rango(totalset, subset)
-		if (r <= t):
-			p_inf += 1
-		if (r >= t):
-			p_sup += 1
-	value = min(p_inf/float(n), p_sup/float(n))
+		values.append(random())
+	values.sort()
+	return values
 
-	return 2*value
+def generator_steps(n):
+	steps = []
+	for i in range(n+1):
+		steps.append(i/float(n))
+	return steps
 
+def d_generator(n):
+	values = generator_exp_values(n, generador_media())
+	steps = generator_steps(n)
+	max_global = 0
+	for i in range(n):
+		max_local = max(steps[i+1] - values[i], values[i] - steps[i])
+		max_global = max(max_local, max_global)
+	return max_global
 
-muestra_total = tratamiento1 + tratamiento2
-muestra_total.sort()
+def u_generator(n):
+	values = generator_unif_values(n)
+	steps = generator_steps(n)
+	max_global = 0
+	for i in range(n):
+		max_local = max(steps[i+1] - values[i], values[i] - steps[i])
+		max_global = max(max_local, max_global)
+	return max_global
 
-ranke = rango(muestra_total, tratamiento2)
-p_valor = p_valor_gen(len(tratamiento2), len(tratamiento1), ranke)
-p_valor_normal = p_valor_normal_gen(len(tratamiento2), len(tratamiento1), ranke)
-p_valor_simulacion = p_valor_simulacion_gen(10000, muestra_total, ranke)
+def valor_p(n, iterations):
+	d = d_generator(n)
+	print "d: ", d
+	p_value = 0
 
-print "rango original: ", ranke
-print "p-valor: ", p_valor
-print "p-valor normal: ", p_valor_normal
-print "p-valor simulado:", p_valor_simulacion
-		
+	for _ in range(iterations):
+		D = u_generator(n)
+		if (D >= d):
+			p_value += 1
+
+	return p_value / float(iterations)
+
+print "media: ", generador_media()
+print valor_p(15, 10000)

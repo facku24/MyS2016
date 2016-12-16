@@ -2,12 +2,12 @@ import math
 from random import random
 from scipy.stats.distributions import chi2
 
-def generator_exp_values(n, media):
-	values = [86,133,75,22,11,144,78,122,8,146,33,41,99]
-	values.sort()
-	values_f 	= []
-	for i in values:
-		values_f.append(1 - math.e**(-i/float(media)))
+def f_unif(x):
+	return (x - 50) /float(150)
+
+def unif_values():
+	values_f = [164, 142, 110, 153, 103, 52, 174, 88, 178, 184, 58, 62, 132, 128]
+	values_f.sort()
 	return values_f
 
 def generator_unif_values(n):
@@ -23,12 +23,12 @@ def generator_steps(n):
 		steps.append(i/float(n))
 	return steps
 
-def d_generator(n, media):
-	values = generator_exp_values(n, media)
+def d_generator(n):
+	values = unif_values()
 	steps = generator_steps(n)
 	max_global = 0
 	for i in range(n):
-		max_local = max(steps[i+1] - values[i], values[i] - steps[i])
+		max_local = max(steps[i+1] - f_unif(values[i]), f_unif(values[i]) - steps[i])
 		max_global = max(max_local, max_global)
 	return max_global
 
@@ -41,8 +41,8 @@ def u_generator(n):
 		max_global = max(max_local, max_global)
 	return max_global
 
-def valor_p(n, media, iterations):
-	d = d_generator(n, media)
+def valor_p(n, iterations):
+	d = d_generator(n)
 	print "d: ", d
 	p_value = 0
 
@@ -53,4 +53,4 @@ def valor_p(n, media, iterations):
 
 	return p_value / float(iterations)
 
-print valor_p(13, 50, 500)
+print valor_p(14, 500)

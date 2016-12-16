@@ -2,7 +2,8 @@ import math
 from random import random
 from scipy.stats.distributions import chi2
 
-values = [86,133,75,22,11,144,78,122,8,146,33,41,99]
+values = [0.65401, 0.019464, 0.0094966, 0.69783, 0.058019,
+		  0.02111, 0.37748, 0.014272, 1.2275, 0.50268]
 values.sort()
 
 def func_distro_expo(x, media):
@@ -45,7 +46,9 @@ def u_generator(n):
 		max_global = max(max_local, max_global)
 	return max_global
 
-def valor_p(n, media, iterations):
+def valor_p(n, iterations):
+	media = 0.5#generator_media()
+	print "media: ", media
 	d = d_generator(n, media)
 	print "d: ", d
 	p_value = 0
@@ -57,4 +60,5 @@ def valor_p(n, media, iterations):
 
 	return p_value / float(iterations)
 
-print valor_p(13, 50, 500)
+#print d_generator(10, 0.5)
+print valor_p(10, 500)

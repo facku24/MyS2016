@@ -2,18 +2,22 @@ import math
 from random import random
 from scipy.stats.distributions import chi2
 
-def generador_media():
-	valores = [1.6,10.3,3.5,13.5,18.4,7.7,24.3,10.7,8.4,4.9,7.9,12.,16.2,6.8,14.7]
-	media = sum(valores)
-	media = media/len(valores)
-	return media
+values = [122, 133, 106, 128, 135, 126]
+values.sort()
 
-def generator_exp_values(n, media):
-	values = [1.6,10.3,3.5,13.5,18.4,7.7,24.3,10.7,8.4,4.9,7.9,12.,16.2,6.8,14.7]
-	values.sort()
+def generator_media():
+	media = 0
+	for i in values:
+		media += i
+	return media/float(len(values))
+
+def func_distro_expo(x, media):
+	return 1 - math.e**(-x/float(media))
+
+def func_distro_exp_values(n, media):
 	values_f 	= []
 	for i in values:
-		values_f.append(1 - math.e**(-i/float(media)))
+		values_f.append(func_distro_expo(i, media))
 	return values_f
 
 def generator_unif_values(n):
@@ -29,8 +33,8 @@ def generator_steps(n):
 		steps.append(i/float(n))
 	return steps
 
-def d_generator(n):
-	values = generator_exp_values(n, generador_media())
+def d_generator(n, media):
+	values = func_distro_exp_values(n, media)
 	steps = generator_steps(n)
 	max_global = 0
 	for i in range(n):
@@ -48,7 +52,9 @@ def u_generator(n):
 	return max_global
 
 def valor_p(n, iterations):
-	d = d_generator(n)
+	media = generator_media()
+	print "media: ", media
+	d = d_generator(n, media)
 	print "d: ", d
 	p_value = 0
 
@@ -59,4 +65,4 @@ def valor_p(n, iterations):
 
 	return p_value / float(iterations)
 
-print valor_p(15, 10000)
+print valor_p(6, 500)

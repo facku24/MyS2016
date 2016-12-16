@@ -38,8 +38,8 @@ def u_generator(n):
 		max_global = max(max_local, max_global)
 	return max_global
 
-def valor_p(n, media, iterations):
-	d = d_generator(n, media)
+def valor_p(n, iterations):
+	d = d_generator(n)
 	print "d: ", d
 	p_value = 0
 
@@ -50,4 +50,5 @@ def valor_p(n, media, iterations):
 
 	return p_value / float(iterations)
 
-print valor_p(13, 50, 500)
+#print d_generator(10)
+print valor_p(10, 500)

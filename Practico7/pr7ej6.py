@@ -1,57 +1,57 @@
 import math
-from random import random
 from scipy.stats.distributions import chi2
 
-def generator_exp_values(n, media):
-	values_f 	= []
-	for _ in range(n):
-		X = - math.log(random())
-		values_f.append(1 - math.e**(-X/float(media)))
-	values_f.sort()
-	return values_f
+values = [6,7,3,4,7,2,6,3,7,8,2,1,3,5,8,7]
 
-def generator_unif_values(n):
-	values = []
-	for _ in range(n):
-		values.append(random())
-	values.sort()
-	return values
+def estimador_p(n):
+	result = 0
+	for i in values:
+		result += i
+	return result/float((len(values))*n)
 
-def generator_steps(n):
-	steps = []
-	for i in range(n+1):
-		steps.append(i/float(n))
-	return steps
+def sum_iguales(i):
+	result = 0
+	for j in values:
+		if (j == i):
+			result += 1
+	return result
 
-def d_generator(n):
-	values = generator_exp_values(n, 1)
-	steps = generator_steps(n)
-	max_global = 0
-	for i in range(n):
-		max_local = max(steps[i+1] - values[i], values[i] - steps[i])
-		max_global = max(max_local, max_global)
-	return max_global
+def nCi(n, i):
+	'''
+		Combinatoria i en n
+	'''
+	f = math.factorial
+	return f(n)/ float((f(i)*f(n-i)))
 
-def u_generator(n):
-	values = generator_unif_values(n)
-	steps = generator_steps(n)
-	max_global = 0
-	for i in range(n):
-		max_local = max(steps[i+1] - values[i], values[i] - steps[i])
-		max_global = max(max_local, max_global)
-	return max_global
+def calculate_p_i(p, n, i):
+	'''
+		Calculamos las probabilidades de p_i, con i = 1,..,8
+	'''
+	q = 1-p
+	result = nCi(n, i) * (p**i) * (q**(n-i))
+	print "p_i:", i, result
+	return result
 
-def valor_p(n, iterations):
-	d = d_generator(n)
-	print "d: ", d
-	p_value = 0
+def estimador(indep_vars, values_posb):
+	T = 0
+	p = estimador_p(values_posb)
 
-	for _ in range(iterations):
-		D = u_generator(n)
-		#print "D: ", D
-		if (D >= d):
-			p_value += 1
+	for i in range(values_posb + 1):
+		Ni = sum_iguales(i)
+		npi = indep_vars * calculate_p_i(p, values_posb, i)
+		print "i:", i, " Ni: ", Ni, " npi: ", npi
+		print "(Ni - npi): ", (Ni - npi), "(Ni - npi)2: ", (Ni - npi)**2
+		print((Ni - npi)**2 / float(npi))
+		T += (Ni - npi)**2 / float(npi)
+		print "T:", T
+	return T
 
-	return p_value / float(iterations)
+def valor_p(T, k):
+	return chi2.sf(T,k-1)
 
-print valor_p(10, 10000)
+def calculate():
+	T = estimador(16, 8)
+	print "T: ", T
+	return valor_p(T, 8)
+
+print calculate()

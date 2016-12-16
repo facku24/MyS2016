@@ -3,8 +3,8 @@ import numpy as np
 import math
 import scipy.stats as st
 
-tratamiento1 = [65.2, 67.1, 69.4, 78.4, 74.0, 80.3]
-tratamiento2 = [59.4, 72.1, 68.0, 66.2, 58.5]
+tratamiento = [19, 31, 39, 45, 47, 66, 75]
+control = [28, 36, 44, 49, 52, 72, 73]
 
 def generador_subset(total_set, longitud):
 	'''
@@ -117,8 +117,9 @@ def p_valor_simulacion_gen(n, totalset, t):
 	p_sup = 0
 
 	for _ in range(n):
-		subset = generador_subset(totalset, 5)
+		subset = generador_subset(totalset, 7)
 		r = rango(totalset, subset)
+		print"rango sim: ", r
 		if (r <= t):
 			p_inf += 1
 		if (r >= t):
@@ -128,16 +129,15 @@ def p_valor_simulacion_gen(n, totalset, t):
 	return 2*value
 
 
-muestra_total = tratamiento1 + tratamiento2
+muestra_total = tratamiento + control
 muestra_total.sort()
 
-ranke = rango(muestra_total, tratamiento2)
-p_valor = p_valor_gen(len(tratamiento2), len(tratamiento1), ranke)
-p_valor_normal = p_valor_normal_gen(len(tratamiento2), len(tratamiento1), ranke)
-p_valor_simulacion = p_valor_simulacion_gen(10000, muestra_total, ranke)
+ranke = rango(muestra_total, tratamiento)
+p_valor = p_valor_gen(len(tratamiento), len(control), ranke)
+p_valor_normal = p_valor_normal_gen(len(tratamiento), len(control), ranke)
+p_valor_simulacion = p_valor_simulacion_gen(10, muestra_total, ranke)
 
 print "rango original: ", ranke
 print "p-valor: ", p_valor
 print "p-valor normal: ", p_valor_normal
 print "p-valor simulado:", p_valor_simulacion
-		

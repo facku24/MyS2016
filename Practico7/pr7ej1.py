@@ -50,5 +50,6 @@ def simulacion(t, n, r):
 			contador += 1
 	return contador/float(r)
 
-print(valor_p(estimador_T_fijo(), 3))
+#print estimador_T_fijo()
+#print(valor_p(estimador_T_fijo(), 3))
 print(simulacion(estimador_T_fijo(), 564, 100))
