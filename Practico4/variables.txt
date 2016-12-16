@@ -1,4 +1,23 @@
 ----------------------------------------------------
+	VARIABLE UNIFORME 
+----------------------------------------------------
+	f(x) = 1 / (b-a) a < x < b
+	F(x) = x -a / (b-a)
+
+----------------------------------------------------
+	VARIABLE NORMAL
+----------------------------------------------------
+	f(x) = 1 / (raiz(2*pi*variance)*e(-(x-mu)2/2varian))
+	F(x) = ntdr
+
+----------------------------------------------------
+	VARIABLE EXPONENCIAL
+----------------------------------------------------
+	f(x) = lambda * e(-lambda*x)
+	F(x) = 1 - e(-lambda*x)
+
+
+----------------------------------------------------
 				GENERACION DE UNIFORMES EN (0, n)
 ----------------------------------------------------
 1. Genero uniforme U en (0,1)
@@ -152,7 +171,25 @@ Obs! = si p > .5, generar "n - BINOMIAL(n, 1-p)"
 .  Xn = t - t* Vn-1
 
 ----------------------------------------------------
-	GENERACION DE NORMAL
+	VARIABLE GAMMA(a,b)
+----------------------------------------------------
+	f(x) = K x(a-1)e(-bx)
+
+	E[x] = a/b
+
+	Luego se acota por una exponencial de igual media
+
+----------------------------------------------------
+	VARIABLE BETA(a,b)
+----------------------------------------------------
+	f(x) = K x(a-1)(1-x)(b-1)
+
+	Luego se acota por una uniforme en (0,1)
+
+	g(x) = 1
+
+----------------------------------------------------
+	GENERACION DE NORMAL (mediante exponenciales)
 ----------------------------------------------------
 1. repeat
 2.	genero Y1 expo(1)
@@ -164,6 +201,14 @@ Obs! = si p > .5, generar "n - BINOMIAL(n, 1-p)"
 8.	Z = Y1
 9. else
 10. Z = -Y1
+
+----------------------------------------------------
+	GENERACION DE NORMAL (mediante polar)
+----------------------------------------------------
+1. generar aleatorios U1 y U2
+2. V1 = 2*U1-1, V2 = 2*U2 -1, S = V1**2 + V2**2
+3. si S > 1, regresar a 1.
+4. Xi = raiz(-l*log(S)/S) * Vi
 
 ----------------------------------------------------
 	1 POISSON HOMOGENEO 
@@ -181,7 +226,7 @@ Obs! = si p > .5, generar "n - BINOMIAL(n, 1-p)"
 11.end
 
 ----------------------------------------------------
-	2 GENERACION DE EVENTOS EN EL INTER
+	2 POISSON NO HOMOGENEO
 ----------------------------------------------------
 1. t = 0, i = 0
 2. while true:
@@ -199,7 +244,7 @@ Obs! = si p > .5, generar "n - BINOMIAL(n, 1-p)"
 12.end
 
 ----------------------------------------------------
-		POISSON NO HOMOGENEO
+		POISSON NO HOMOGENEO INTERVALO
 ----------------------------------------------------
 1. t = 0, j = 0, i = 0
 2. while true:
@@ -228,3 +273,34 @@ Obs! = si p > .5, generar "n - BINOMIAL(n, 1-p)"
 4. until S < 1
 5. X = raiz(-2log(S) / S) * V1
 6. Y = raiz(-2log(S) / S) * V2
+
+----------------------------------------------------
+	GENERACION POISSON NO HOMOGENEO + HOMOGENEO
+----------------------------------------------------
+1. Genero los eventos de un Proc Homogeneo
+2. Genero los eventos de un Proc no Homogeneo
+3. Los uno.
+
+----------------------------------------------------
+	METODO PARA DETENERSE CON NUEVOS DATOS
+----------------------------------------------------
+1. Elegir un valor de d para la desviacion estandar
+2. Generar al menos 30 datos
+3. Continuar generando mas datos hasta obtener k datos con
+	S/raiz(k) < d
+4. Devolver Xprom
+
+----------------------------------------------------
+	GENERACION RECURSIVA
+----------------------------------------------------
+	X1 = 0
+	S1 = 0
+
+	Xj+1 = Xprom + (Xj+i - Xj)/j+1
+
+	S_j+1 = (1 - 1/j)S_j + (j+1)(Xj+1 - Xj)**2
+
+----------------------------------------------------
+	INTERVALO
+----------------------------------------------------
+ x +- z_alpha/2*s/raiz(n)
